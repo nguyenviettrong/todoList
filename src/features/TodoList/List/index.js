@@ -1,17 +1,33 @@
-import React from 'react';
+import React, {useCallback} from "react";
 import { Formik, Field, Form, ErrorMessage } from 'formik';
+import { removeTodo,toggleStatus,updateTodo } from '../todoSlice';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 
 function AddTodo (props){
     const dispatch = useDispatch();
     const initialTodoList = useSelector(state => state.todos);
-    
+ 
+    function handleRemove(id){
+        dispatch(removeTodo(id))
+    }
+
+    function handleToggleStatus(id){
+        dispatch(toggleStatus(id))
+    }
+
+    function handleUpdate(todo){
+        dispatch(updateTodo(todo))
+    }
+
+    // console.log(initialTodoList);
     var renderList = null;
     if (Array.isArray(initialTodoList) && initialTodoList.length) {
         renderList = initialTodoList.map((item, index) => {
-            var checked = null;
+            var checked,statusLabel = null;
             checked = item.status ? 'checked' : '';
+            statusLabel = item.status ? 'Done' : 'Todo';
+
             return (
                 <tr>
                     <th className="text-center align-middle">
@@ -22,13 +38,13 @@ function AddTodo (props){
                     </th>
                     <th className="text-center align-middle">
                         <div className="custom-control custom-switch">
-                          <input type="checkbox" checked={checked} onChange="" className="custom-control-input" id={"toggleStatus-" + (index + 1)} name="toggleStatus" />
-                          <label className="custom-control-label" for={"toggleStatus-" + (index + 1)}>Status</label>
+                          <input type="checkbox" checked={checked} onChange={(e) => handleToggleStatus(item.id)} className="custom-control-input" id={"toggleStatus-" + (index + 1)} name="toggleStatus" />
+                          <label className="custom-control-label" for={"toggleStatus-" + (index + 1)}>{statusLabel}</label>
                         </div>
                     </th>
                     <th className="text-center align-middle">
-                        <i className="fa fa-pencil text-primary font-size-20 mr-3"></i>
-                        <i className="fa fa-times text-danger font-size-20"></i>
+                        <i className="fa fa-pencil text-secondary font-size-18 mr-3" onClick={(e) => handleUpdate(item)}></i>
+                        <i className="fa fa-times text-danger font-size-20" onClick={(e) => handleRemove(item.id)}></i>
                     </th>
                 </tr>
             )

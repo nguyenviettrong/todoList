@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 var initialTodos = [];
-// console.log(localStorage.getItem("todoData"));
 initialTodos = localStorage.getItem("todoData") ? JSON.parse(localStorage.getItem("todoData")) : [];
 
 const todo = createSlice({
@@ -12,23 +11,31 @@ const todo = createSlice({
       state.push(action.payload);
       localStorage.setItem("todoData", JSON.stringify(state))
     },
-    // removePhoto: (state, action) => {
-    //   console.log(action.payload);
-    //   const removePhotoId = action.payload;
-    //   return state.filter(photo => photo.id !== removePhotoId);
-    // },
-    // updatePhoto: (state, action) => {
-    //   const newPhoto = action.payload;
-    //   const photoIndex = state.findIndex(photo => photo.id === newPhoto.id);
-
-    //   if (photoIndex >= 0) {
-    //     state[photoIndex] = newPhoto;
-    //   }
-    // }
+    removeTodo: (state, action) => {
+      const removeTodoId = action.payload;
+      const newState = state.filter( todo => todo.id !== removeTodoId );
+      localStorage.setItem("todoData", JSON.stringify(newState));
+      return newState;
+    },
+    toggleStatus(state, action) {
+      const removeTodoId = action.payload;
+      const todo = state.find(todo => todo.id === removeTodoId)
+      if (todo) {
+        todo.status = !todo.status
+        localStorage.setItem("todoData", JSON.stringify(state));
+      }
+    },
+    updateTodo: (state, action) => {
+      const newTodo = action.payload.id;
+      const todoIndex = state.findIndex(todo => todo.id === newTodo.id);
+      if (todoIndex >= 0) {
+        state[todoIndex] = newTodo;
+        localStorage.setItem("todoData", JSON.stringify(state));
+      }
+    }
   }
 });
 
 const { reducer, actions } = todo;
-// export const { addPhoto, removePhoto, updatePhoto } = actions;
-export const { addTodo } = actions;
+export const { addTodo,removeTodo,toggleStatus,updateTodo } = actions;
 export default reducer;

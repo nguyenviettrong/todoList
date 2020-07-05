@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addTodo } from '../todoSlice';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import { uuid } from 'uuidv4';
 
 function AddTodo (props){
     const dispatch = useDispatch();
@@ -11,14 +12,15 @@ function AddTodo (props){
             <Formik
                 initialValues={{
                     name: '',
-                    status: '',
+                    status: false,
                 }}
                 validationSchema={Yup.object().shape({
                     name: Yup.string().required('Name is required!'),
                 })}
-                onSubmit={fields => {
-                    {/*console.log(fields)*/}
+                onSubmit={(fields, {resetForm}) => {    
+                    fields.id = uuid();
                     dispatch(addTodo(fields))
+                    resetForm({ fields: '' })
                 }}
                 render={({ errors, touched }) => (
                     <Form>
@@ -27,8 +29,7 @@ function AddTodo (props){
                             <ErrorMessage name="name" component="span" className="invalid-feedback" />
                         </div>
                         <div className="form-group text-center">
-                            <button type="submit" className="btn btn-primary mr-2">Add</button>
-                            <button type="reset" className="btn btn-warning">Reset</button>
+                            <button type="submit" className="btn btn-primary py-1 px-5">Add</button>
                         </div>
                     </Form>
                 )}

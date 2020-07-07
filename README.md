@@ -3,6 +3,8 @@
 ##  `npm install`
 ##  `npm start`
 
+## npm run build -> cd build (clone index.html to 200.html) -> surge -> deploy
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

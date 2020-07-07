@@ -6,8 +6,6 @@ import List from './features/TodoList/List/index'
 import './App.css';
 
 function App (props){
-    const initialTodoList = useSelector(state => state.todos);
-
     return (
         <div className="container py-5 max-width-900">
            <h1 className="text-center mb-2">Todo list</h1>  

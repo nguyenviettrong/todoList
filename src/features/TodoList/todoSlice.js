@@ -25,8 +25,15 @@ const todo = createSlice({
         localStorage.setItem("todoData", JSON.stringify(state));
       }
     },
+    editTodo: (state, action) => {
+      const removeTodoId = action.payload;
+      const todo = state.find(todo => todo.id === removeTodoId.id)
+      if (todo) {
+        todo.editingStatus = true;
+      }
+    },
     updateTodo: (state, action) => {
-      const newTodo = action.payload.id;
+      const newTodo = action.payload;      
       const todoIndex = state.findIndex(todo => todo.id === newTodo.id);
       if (todoIndex >= 0) {
         state[todoIndex] = newTodo;
@@ -37,5 +44,5 @@ const todo = createSlice({
 });
 
 const { reducer, actions } = todo;
-export const { addTodo,removeTodo,toggleStatus,updateTodo } = actions;
+export const { addTodo,removeTodo,toggleStatus,editTodo,updateTodo } = actions;
 export default reducer;

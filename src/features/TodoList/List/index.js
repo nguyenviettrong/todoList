@@ -1,6 +1,6 @@
 import React, {useCallback} from "react";
 import { Formik, Field, Form, ErrorMessage } from 'formik';
-import { removeTodo,toggleStatus,updateTodo } from '../todoSlice';
+import { removeTodo,toggleStatus,editTodo } from '../todoSlice';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -16,8 +16,8 @@ function AddTodo (props){
         dispatch(toggleStatus(id))
     }
 
-    function handleUpdate(todo){
-        dispatch(updateTodo(todo))
+    function handleEdit(todo){
+        dispatch(editTodo(todo))
     }
 
     // console.log(initialTodoList);
@@ -26,7 +26,7 @@ function AddTodo (props){
         renderList = initialTodoList.map((item, index) => {
             var checked,statusLabel = null;
             checked = item.status ? 'checked' : '';
-            statusLabel = item.status ? 'Done' : 'Todo';
+            statusLabel = item.status ? 'Done' : 'Doing';
 
             return (
                 <tr>
@@ -43,7 +43,7 @@ function AddTodo (props){
                         </div>
                     </th>
                     <th className="text-center align-middle">
-                        <i className="fa fa-pencil text-secondary font-size-18 mr-3" onClick={(e) => handleUpdate(item)}></i>
+                        <i className="fa fa-pencil text-secondary font-size-18 mr-3" onClick={(e) => handleEdit(item)}></i>
                         <i className="fa fa-times text-danger font-size-20" onClick={(e) => handleRemove(item.id)}></i>
                     </th>
                 </tr>

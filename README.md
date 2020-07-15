@@ -5,6 +5,17 @@
 ## cat < ~/.ssh/id_rsa.pub
 ## npm run build -> cd build (clone index.html to 200.html) -> surge -> deploy
 
+{
+Object.entries(ipInfo.data).map(([key, val]) => 
+<tr key={key}>
+<td className="w-30 align-middle py-1">{key}</td>
+{typeof(val) != 'object' &&
+<td className="w-70 align-middle py-1"><strong>{val}</strong></td>
+}
+</tr>  
+)
+}
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
